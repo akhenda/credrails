@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5p8d!)n9125tl8qyle188z4-jfu4yey(z$fn-bix6ut3s@^+54'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-5p8d!)n9125tl8qyle188z4-jfu4yey(z$fn-bix6ut3s@^+54')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == '1'
 
 ALLOWED_HOSTS = []
 
@@ -81,6 +82,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': os.environ.get('POSTGRES_DB'),
+        # 'USER': os.environ.get('POSTGRES_USER'),
+        # 'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        # 'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        # 'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
 
@@ -132,3 +139,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
+
+# File Uploads configuration
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+UPLOADS_URL = '/uploads/'
+UPLOADS_ROOT = os.path.join(BASE_DIR, 'uploads')
