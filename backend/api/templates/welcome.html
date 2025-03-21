@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Credrails - Automated Reconciliation</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fafafa;
+        color: #333;
+        overflow-x: hidden;
+        padding: 2rem;
+      }
+
+      .container {
+        max-width: 1000px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .logo {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #4f55f8 0%, #c386ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        animation: fadeIn 1s ease forwards;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        color: #333;
+        animation: fadeIn 1s ease forwards 0.3s;
+        opacity: 0;
+      }
+
+      .highlight {
+        background: linear-gradient(135deg, #4f55f8 0%, #c386ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .description {
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        line-height: 1.6;
+        color: #555;
+        max-width: 700px;
+        margin: 0 auto 2.5rem;
+        animation: fadeIn 1s ease forwards 0.6s;
+        opacity: 0;
+      }
+
+      .features {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        animation: fadeIn 1s ease forwards 0.9s;
+        opacity: 0;
+      }
+
+      .feature {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        flex: 1;
+        max-width: 250px;
+        transition: transform 0.3s ease;
+      }
+
+      .feature:hover {
+        transform: translateY(-5px);
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: white;
+      }
+
+      .feature:nth-child(1) .feature-icon {
+        background: #4f55f8;
+      }
+
+      .feature:nth-child(2) .feature-icon {
+        background: #c386ff;
+      }
+
+      .feature:nth-child(3) .feature-icon {
+        background: #6cc3f9;
+      }
+
+      .feature-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #4f55f8 0%, #c386ff 100%);
+        color: white;
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        animation: fadeIn 1s ease forwards 1.2s;
+        opacity: 0;
+        box-shadow: 0 5px 15px rgba(79, 85, 248, 0.3);
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(79, 85, 248, 0.4);
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        z-index: -1;
+      }
+
+      .circle-1 {
+        width: 300px;
+        height: 300px;
+        background: rgba(79, 85, 248, 0.05);
+        top: -150px;
+        right: -100px;
+        animation: float 15s infinite ease-in-out;
+      }
+
+      .circle-2 {
+        width: 200px;
+        height: 200px;
+        background: rgba(195, 134, 255, 0.05);
+        bottom: -100px;
+        left: -50px;
+        animation: float 12s infinite ease-in-out reverse;
+      }
+
+      .circle-3 {
+        width: 150px;
+        height: 150px;
+        background: rgba(108, 195, 249, 0.05);
+        top: 50%;
+        left: 10%;
+        animation: float 10s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .features {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .feature {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+
+    <div class="container">
+      <div class="logo">
+        <a href="https://www.credrails.com" target="_blank">
+          Credrails
+        </a>
+      </div>
+
+      <h1><span class="highlight">Accurate, Fast, and Automated</span> Reconciliation</h1>
+
+      <p class="description">
+        Don't let manual processes slow down your business. Automate and control payment
+        transactions with unmatched speed and accuracy.
+      </p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">A</div>
+          <h3 class="feature-title">Accurate</h3>
+          <p>Eliminate errors with precision-engineered algorithms</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">F</div>
+          <h3 class="feature-title">Fast</h3>
+          <p>Process thousands of transactions in seconds</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">A</div>
+          <h3 class="feature-title">Automated</h3>
+          <p>Set it and forget it with fully automated workflows</p>
+        </div>
+      </div>
+
+      <a href="https://calendly.com/clara-wanjiku-odero/30min" target="_blank" class="cta-button">
+        Get Started
+      </a>
+    </div>
+  </body>
+</html>

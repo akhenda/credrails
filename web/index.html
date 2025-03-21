@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello, World!</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .container {
+        text-align: center;
+        z-index: 1;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 10vw, 8rem);
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        letter-spacing: -2px;
+        margin-bottom: 1rem;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeUp 1s ease forwards 0.5s;
+      }
+
+      p {
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1s ease forwards 1s;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        animation: float 8s infinite ease-in-out;
+      }
+
+      .circle:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        left: -100px;
+        animation-delay: 0s;
+      }
+
+      .circle:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        bottom: -100px;
+        right: 10%;
+        animation-delay: 2s;
+      }
+
+      .circle:nth-child(3) {
+        width: 150px;
+        height: 150px;
+        bottom: 30%;
+        left: 10%;
+        animation-delay: 4s;
+      }
+
+      .circle:nth-child(4) {
+        width: 80px;
+        height: 80px;
+        top: 30%;
+        right: 20%;
+        animation-delay: 6s;
+      }
+
+      .btn {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 0.8rem 2rem;
+        background: white;
+        color: #764ba2;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1s ease forwards 1.5s;
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+
+    <div class="container">
+      <h1>Hello, World!</h1>
+      <p>Welcome to this beautifully crafted landing page where creativity meets simplicity.</p>
+      <a href="#" class="btn">Explore More</a>
+    </div>
+  </body>
+</html>
