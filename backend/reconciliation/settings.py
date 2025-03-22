@@ -142,6 +142,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+TEST_RUNNER = 'django_rich.test.RichRunner'
+
 # File Uploads configuration
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPLOADS_URL = '/uploads/'
