@@ -22,6 +22,7 @@ virtualenv = "==20.29.3"
 django = "*"
 ruff = "*"
 django-rich = "*"
+coverage = "*"
 
 [dev-packages]
 
@@ -37,3 +38,5 @@ test = "python manage.py test"
 lint = "ruff check"
 "lint:fix" = "ruff check --fix"
 "lint:watch" = "ruff check --watch"
+"coverage:run" = "coverage run manage.py test"
+"coverage:report" = "coverage report -m"

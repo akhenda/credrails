@@ -86,6 +86,45 @@ To watch tests while developing, run:
 pipenv run test:watch
 ```
 
+To run coverage, run:
+
+```sh
+pipenv run coverage:run
+```
+
+TO generate the coverage report, run:
+
+```sh
+pipenv run coverage:report
+```
+
+```
+Name                                  Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------
+api/__init__.py                           0      0   100%
+api/admin.py                              0      0   100%
+api/apps.py                               4      0   100%
+api/migrations/0001_initial.py            5      0   100%
+api/migrations/__init__.py                0      0   100%
+api/models.py                             7      1    86%   9
+api/reconciliation_engine.py            121      5    96%   39-40, 58-59, 120
+api/serializers.py                       10      0   100%
+api/tests.py                              0      0   100%
+api/urls.py                               6      0   100%
+api/views.py                             80     38    52%   21-22, 38-61, 69-97, 109, 151-157, 160-161
+manage.py                                11      2    82%   12-13
+reconciliation/__init__.py                0      0   100%
+reconciliation/settings.py               24      0   100%
+reconciliation/urls.py                    4      0   100%
+tests/__init__.py                         0      0   100%
+tests/test_reconciliation_engine.py      78      0   100%
+tests/test_serializers.py                 0      0   100%
+tests/test_views.py                      34      3    91%   70-72
+tests/utils.py                           11      0   100%
+-------------------------------------------------------------------
+TOTAL                                   395     49    88%
+```
+
 **PS:**
 
 - The test watcher uses `watchexec`. Make sure it is installed to enable this Developer Experience (DX).
