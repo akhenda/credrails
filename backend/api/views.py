@@ -80,8 +80,6 @@ class ReconciliationViewSet(viewsets.ViewSet):
 
         if output_format == 'csv':
             output = generate_csv(results)
-            print(output)
-            print(output.getvalue())
             response = HttpResponse(output.getvalue(), content_type='text/csv')
             response['Content-Disposition'] = (
                 'attachment; filename="reconciliation.csv"'
@@ -112,33 +110,18 @@ class ReconciliationViewSet(viewsets.ViewSet):
         target_file = serializer.validated_data['target_file']
         output_format = serializer.validated_data.get('output_format', 'json')
 
-        print(type(source_file), type(target_file), type(output_format))
-        print('source_file', source_file)
-        print('target_file', target_file)
-        print('output_format', output_format)
-
         # Parse CSVs
         source_raw = parse_csv(source_file)
         target_raw = parse_csv(target_file)
-
-        print('source_raw', source_raw)
-        print('target_raw', target_raw)
 
         # Normalize data
         source_data = [normalize_record(row) for row in source_raw]
         target_data = [normalize_record(row) for row in target_raw]
 
-        print('source_data', source_data)
-        print('target_data', target_data)
-
         # Reconcile
         report_id, fields, missing_in_target, missing_in_source, discrepancies = (
             reconcile_data(source_data, target_data)
         )
-
-        print('missing_in_target', missing_in_target)
-        print('missing_in_source', missing_in_source)
-        print('discrepancies', discrepancies)
 
         # Prepare the results
         results = {
