@@ -1,4 +1,3 @@
-import csv
 import io
 from unittest.mock import patch
 
@@ -13,23 +12,10 @@ from api.reconciliation_engine import (
     parse_csv,
     reconcile_data,
 )
+from tests.utils import make_csv_file
 
 
 class ReconciliationEngineTests(TestCase):
-    def _make_csv_file(self, rows):
-        """
-        Utility to create an in-memory CSV File for testing.
-        `rows` is a list of dicts. The keys are the CSV headers.
-        """
-        output = io.StringIO()
-        if rows:
-            writer = csv.DictWriter(output, fieldnames=rows[0].keys())
-            writer.writeheader()
-            for row in rows:
-                writer.writerow(row)
-        output.seek(0)
-        return io.BytesIO(output.getvalue().encode('utf-8'))
-
     # -------------------------------------------------------------------------
     # parse_csv
     # -------------------------------------------------------------------------
@@ -39,7 +25,7 @@ class ReconciliationEngineTests(TestCase):
             {'id': '1', 'name': 'Goku'},
             {'id': '2', 'name': 'Gohan'},
         ]
-        csv_file = self._make_csv_file(rows)
+        csv_file = make_csv_file(rows)
         parsed = parse_csv(csv_file)
 
         self.assertEqual(len(parsed), 2)

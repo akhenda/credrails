@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Data Discrepancy Report</title>
+</head>
+<body>
+  <h1>Report ID: {{ id }}</h1>
+  <h1>Missing in Target</h1>
+  {% if missing_in_target %}
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          {% for field in missing_in_target.0.keys %}
+            <th>{{ field }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for missing in missing_in_target %}
+          <tr>
+            {% for key, value in missing.items %}
+              <td> {{ value }} </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no items missing in the target.</p>
+  {% endif %}
+
+  <h1>Missing in Source</h1>
+  {% if missing_in_source %}
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          {% for field in missing_in_source.0.keys %}
+            <th>{{ field }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for missing in missing_in_source %}
+          <tr>
+            {% for key, value in missing.items %}
+              <td> {{ value }} </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no items missing in the source.</p>
+  {% endif %}
+
+  <h1>Discrepancies</h1>
+  {% if discrepancies %}
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Field</th>
+          <th>Source Value</th>
+          <th>Target Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for discrepancy in discrepancies %}
+          <tr>
+            {% for key, value in discrepancy.items %}
+              {% if key == 'id' %}
+                <td>{{ value }}</td>
+              {% endif %}
+              {% if key == 'differences' %}
+                {% for field, difference in value.items %}
+                  <td>{{ field }}</td>
+                  <td>{{ difference.source }}</td>
+                  <td>{{ difference.target }}</td>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>There are no discrepancies.</p>
+  {% endif %}
+</body>
+</html>

@@ -4,6 +4,10 @@ import io
 
 from django.template import loader
 
+# Temporary in-memory database
+# Key = report_id (string/UUID), Value = reconciliation results (dict, etc.)
+REPORTS = {}
+
 
 def parse_csv(file_obj):
     """
@@ -121,6 +125,7 @@ def reconcile_data(source_data, target_data):
     # Discrepancies => records that exist in both but differ in at least one field
     discrepancies = []
     intersection_keys = source_keys.intersection(target_keys)
+    fields = set()
     print('Intersection Keys:')
     print(intersection_keys)
     for key in intersection_keys:
@@ -137,6 +142,7 @@ def reconcile_data(source_data, target_data):
         print('All Fields:')
         print(all_fields)
         for field in all_fields:
+            fields.add(field)
             s_val = s_record.get(field)
             t_val = t_record.get(field)
             if s_val != t_val:
@@ -148,10 +154,30 @@ def reconcile_data(source_data, target_data):
     print('Discrepancies:')
     print(discrepancies)
 
-    return missing_in_target, missing_in_source, discrepancies
+    print('Fields:')
+    print(fields)
+
+    if len(REPORTS) > 0:
+        report_id = str(max(int(key) for key in REPORTS.keys()) + 1)
+    else:
+        report_id = '1'
+
+    print('Report ID:')
+    print(report_id)
+    print(REPORTS)
+
+    REPORTS[report_id] = {
+        'fields': fields,
+        'missing_in_target': missing_in_target,
+        'missing_in_source': missing_in_source,
+        'discrepancies': discrepancies,
+        'created_at': datetime.datetime.now(),
+    }
+
+    return report_id, field, missing_in_target, missing_in_source, discrepancies
 
 
-def generate_csv(self, results):
+def generate_csv(results):
     """
     Turn the results dictionary into a CSV file in-memory and return it.
     """
@@ -174,14 +200,11 @@ def generate_csv(self, results):
     return output
 
 
-def generate_html(self, results):
+def generate_html(results):
     """
     Convert the results into minimal HTML.
     """
-    print('Results:')
-    print(results)
-    template = loader.render_to_string('reconciliation.html', context=results)
-    print('Template:')
-    print(template)
+    template = loader.get_template('reconciliation-rich.html')
+    html = template.render(results)
 
-    return template
+    return html
