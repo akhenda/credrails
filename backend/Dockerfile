@@ -20,6 +20,7 @@ FROM base as builder
 COPY requirements.txt ./
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN pip install pipenv --user
 
 # ---- Final Stage ----
 FROM base as final
@@ -47,5 +48,4 @@ COPY . .
 # Expose port 8000 for Django development server
 EXPOSE 8000
 
-# Set default command for Django runserver (development)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["pipenv", "run", "start", "0.0.0.0:8000"]

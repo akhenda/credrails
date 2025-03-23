@@ -29,6 +29,7 @@ django-rich = "*"
 python_version = "3.13"
 
 [scripts]
+dev = "python manage.py runserver"
 start = "python manage.py runserver"
 test = "python manage.py test"
 # "test:watch" = "find . -name '*.py' | entr python manage.py test"
