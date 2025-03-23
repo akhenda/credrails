@@ -1,7 +1,6 @@
 import io
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
-from django.template import loader
 from django.test import TestCase
 
 from api.reconciliation_engine import (
@@ -102,9 +101,10 @@ class ReconciliationEngineTests(TestCase):
             {'id': '1', 'name': 'goku'},
             {'id': '2', 'name': 'gohan'},
         ]
-        missing_in_target, missing_in_source, discrepancies = reconcile_data(
-            source_data, target_data
+        report_id, fields, missing_in_target, missing_in_source, discrepancies = (
+            reconcile_data(source_data, target_data)
         )
+        self.assertEqual(fields, {'id', 'name'})
         self.assertEqual(len(missing_in_target), 0)
         self.assertEqual(len(missing_in_source), 0)
         self.assertEqual(len(discrepancies), 0)
@@ -122,8 +122,8 @@ class ReconciliationEngineTests(TestCase):
             {'id': '1', 'name': 'goku', 'tax': '999'},  # mismatch in 'tax'
             # '2' is missing
         ]
-        missing_in_target, missing_in_source, discrepancies = reconcile_data(
-            source_data, target_data
+        report_id, fields, missing_in_target, missing_in_source, discrepancies = (
+            reconcile_data(source_data, target_data)
         )
 
         # '2' is missing in target
@@ -161,7 +161,7 @@ class ReconciliationEngineTests(TestCase):
 
         # generate_csv is defined with signature generate_csv(self, results),
         # but typically it wouldn't need 'self'. We'll pass None or a dummy for 'self'.
-        csv_file = generate_csv(None, results)
+        csv_file = generate_csv(results)
         csv_file.seek(0)
         csv_data = csv_file.read()
 
@@ -183,10 +183,7 @@ class ReconciliationEngineTests(TestCase):
     # -------------------------------------------------------------------------
     # generate_html
     # -------------------------------------------------------------------------
-    @patch.object(
-        loader, 'render_to_string', return_value='<html>Fake Template Output</html>'
-    )
-    def test_generate_html_renders_template(self, mock_render):
+    def test_generate_html_renders_template(self):
         """
         generate_html should call Django's template rendering with the correct context.
         """
@@ -201,8 +198,15 @@ class ReconciliationEngineTests(TestCase):
             ],
         }
 
-        html_output = generate_html(None, results)
+        mock_template = MagicMock()
+        mock_template.render.return_value = '<html>Fake Template Output</html>'
 
-        # Confirm we used the right template and context
-        mock_render.assert_called_once_with('reconciliation.html', context=results)
-        self.assertEqual(html_output, '<html>Fake Template Output</html>')
+        with patch(
+            'django.template.loader.get_template', return_value=mock_template
+        ) as mock_get_template:
+            html_output = generate_html(results)
+
+            mock_get_template.assert_called_once_with('reconciliation-rich.html')
+            mock_template.render.assert_called_once_with(results)
+
+            self.assertEqual(html_output, '<html>Fake Template Output</html>')

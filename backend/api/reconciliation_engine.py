@@ -174,7 +174,7 @@ def reconcile_data(source_data, target_data):
         'created_at': datetime.datetime.now(),
     }
 
-    return report_id, field, missing_in_target, missing_in_source, discrepancies
+    return report_id, fields, missing_in_target, missing_in_source, discrepancies
 
 
 def generate_csv(results):
